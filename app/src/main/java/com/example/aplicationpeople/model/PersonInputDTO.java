@@ -2,10 +2,7 @@ package com.example.aplicationpeople.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Person {
-
-    @SerializedName("id")
-    private int id;
+public class PersonInputDTO {
 
     @SerializedName("name")
     private String name;
@@ -13,8 +10,9 @@ public class Person {
     @SerializedName("dateBirth")
     private String dateBirth;
 
-    public int getId() {
-        return id;
+    public PersonInputDTO(String name, String dateBirth) {
+        this.name = name;
+        this.dateBirth = dateBirth;
     }
 
     public String getName() {
@@ -23,10 +21,6 @@ public class Person {
 
     public String getDateBirth() {
         return dateBirth;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setName(String name) {

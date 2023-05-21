@@ -3,5 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Registration screen -->
+    <dimen name="tc_margem">5dp</dimen>
+    <dimen name="textView_margem">10dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
 </resources>

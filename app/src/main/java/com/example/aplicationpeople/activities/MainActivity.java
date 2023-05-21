@@ -5,8 +5,7 @@ import android.os.Bundle;
 
 import com.example.aplicationpeople.R;
 import com.example.aplicationpeople.services.PeopleService;
-import com.example.aplicationpeople.model.Person;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.aplicationpeople.model.PersonOutDTO;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setSupportActionBar(binding.toolbar);
 
-        listView = (ListView) findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
 
         binding.fab.setOnClickListener(this);
@@ -63,16 +62,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         peopleService = retrofit.create(PeopleService.class);
-        Call<List<Person>> call = peopleService.getPeople();
-        call.enqueue(new Callback<List<Person>>() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        Call<List<PersonOutDTO>> call = peopleService.getPeople();
+        call.enqueue(new Callback<List<PersonOutDTO>>() {
             @Override
-            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+            public void onResponse(Call<List<PersonOutDTO>> call, Response<List<PersonOutDTO>> response) {
                 if (response.isSuccessful()) {
-                    List<Person> people = response.body();
+                    List<PersonOutDTO> people = response.body();
                     namesPeople = new ArrayList<>();
                     if (people != null) {
-                        namesPeople = people.stream().map(Person::getName).collect(Collectors.toList());
-                        listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.list_fragment_view, namesPeople));
+                        namesPeople = people.stream().map(PersonOutDTO::getName).collect(Collectors.toList());
+                        listView.setAdapter(new ArrayAdapter<>(MainActivity.this, R.layout.list_fragment_view, namesPeople));
                     }
                 } else {
                     Log.e("API Error", "Erro na resposta da API: " + response.code());
@@ -80,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<List<Person>> call, Throwable t) {
+            public void onFailure(Call<List<PersonOutDTO>> call, Throwable t) {
                 // Lidar com a falha na requisição
                 Log.e("API Error", "Falha na requisição: " + t.getMessage());
             }
@@ -89,20 +97,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Log.i("Informação", "View: " + view.getId() + " Position: " + position + " Id: " + id);
-
     }
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.fab) {
-
             Intent addActivity = new Intent(this, AddActivity.class);
             startActivity(addActivity);
-
         }
-
     }
 }

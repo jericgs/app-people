@@ -16,6 +16,7 @@
             android:id="@+id/toolbar"
             android:background="@color/purple"
             android:layout_width="match_parent"
+            android:textStyle="bold"
             android:layout_height="?attr/actionBarSize" />
 
     </com.google.android.material.appbar.AppBarLayout>
