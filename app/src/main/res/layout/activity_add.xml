@@ -108,7 +108,7 @@
                         android:paddingLeft="@dimen/textView_margem"
                         android:paddingTop="@dimen/textView_margem"
                         android:textStyle="bold"
-                        android:text="@string/label_date_street"
+                        android:text="@string/label_street"
                         android:id="@+id/textViewStreet" />
 
                     <EditText
@@ -132,7 +132,7 @@
                         android:paddingLeft="@dimen/textView_margem"
                         android:paddingTop="@dimen/textView_margem"
                         android:textStyle="bold"
-                        android:text="@string/label_date_number"
+                        android:text="@string/label_number"
                         android:id="@+id/textViewNumber" />
 
                     <EditText
@@ -157,7 +157,7 @@
                         android:paddingLeft="@dimen/textView_margem"
                         android:paddingTop="@dimen/textView_margem"
                         android:textStyle="bold"
-                        android:text="@string/label_date_city"
+                        android:text="@string/label_city"
                         android:id="@+id/textViewCity" />
 
                     <EditText
@@ -182,7 +182,7 @@
                         android:paddingLeft="@dimen/textView_margem"
                         android:paddingTop="@dimen/textView_margem"
                         android:textStyle="bold"
-                        android:text="@string/label_date_zipCode"
+                        android:text="@string/label_zipCode"
                         android:id="@+id/textViewZipCode" />
 
                     <EditText
@@ -198,8 +198,8 @@
                         android:hint="00.000-000"
                         android:focusableInTouchMode="true"
                         android:enabled="true"
-                        android:nextFocusRight="@+id/buttonRegister"
-                        android:layout_above="@+id/buttonRegister"/>
+                        android:nextFocusRight="@+id/buttonUpdate"
+                        android:layout_above="@+id/buttonUpdate"/>
 
                 </LinearLayout>
 
@@ -221,7 +221,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/label_date_register"
+                android:text="@string/bt_register"
                 android:textStyle="bold"
                 android:textSize="15dp"
                 android:id="@+id/buttonRegister"

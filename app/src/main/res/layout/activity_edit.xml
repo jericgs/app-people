@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:background="@color/purple"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="?attr/actionBarSize" />
+
+        <ScrollView
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:paddingLeft="@dimen/textView_margem"
+                        android:paddingTop="@dimen/textView_margem"
+                        android:textStyle="bold"
+                        android:text="@string/label_name"
+                        android:id="@+id/textViewName" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:maxLength="50"
+                        android:inputType="text"
+                        android:ems="11"
+                        android:layout_margin="@dimen/tc_margem"
+                        android:id="@+id/editTextName"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:enabled="true"
+                        android:nextFocusRight="@+id/editTextDateBirth"
+                        android:layout_above="@+id/editTextDateBirth"/>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:paddingLeft="@dimen/textView_margem"
+                        android:paddingTop="@dimen/textView_margem"
+                        android:textStyle="bold"
+                        android:text="@string/label_date_birth"
+                        android:id="@+id/textViewDateBirth" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ems="11"
+                        android:inputType="text"
+                        android:hint="dd/mm/aaaa"
+                        android:maxLength="10"
+                        android:layout_margin="@dimen/tc_margem"
+                        android:id="@+id/editTextDateBirth"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:enabled="true"
+                        android:nextFocusRight="@+id/buttonUpdate"
+                        android:layout_above="@+id/buttonUpdate"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/bt_update"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:id="@+id/buttonUpdate"
+                android:layout_marginBottom="80dp"
+                android:layout_margin="@dimen/tc_margem"
+                android:layout_alignParentBottom="true" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

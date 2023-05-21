@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView listView;
 
     private List<String> namesPeople;
+    private List<PersonOutDTO> peopleList; // Adicionado
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         peopleService = retrofit.create(PeopleService.class);
+
+        // Inicializar a lista de pessoas
+        peopleList = new ArrayList<>();
     }
 
     @Override
@@ -76,10 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<List<PersonOutDTO>> call, Response<List<PersonOutDTO>> response) {
                 if (response.isSuccessful()) {
-                    List<PersonOutDTO> people = response.body();
+                    peopleList = response.body(); // Atualizado
                     namesPeople = new ArrayList<>();
-                    if (people != null) {
-                        namesPeople = people.stream().map(PersonOutDTO::getName).collect(Collectors.toList());
+                    if (peopleList != null) {
+                        namesPeople = peopleList.stream().map(PersonOutDTO::getName).collect(Collectors.toList());
                         listView.setAdapter(new ArrayAdapter<>(MainActivity.this, R.layout.list_fragment_view, namesPeople));
                     }
                 } else {
@@ -97,7 +101,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("Informação", "View: " + view.getId() + " Position: " + position + " Id: " + id);
+
+        String personName = namesPeople.get(position);
+
+        PersonOutDTO person = peopleList.stream()
+                .filter(p -> p.getName().equals(personName))
+                .findFirst()
+                .orElse(null);
+
+        if (person != null) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("id", person.getId());
+            bundle.putString("name", person.getName());
+            bundle.putString("dateBirth", person.getDateBirth());
+
+            Intent detailsActivity = new Intent(this, DetailsActivity.class);
+            detailsActivity.putExtras(bundle);
+            startActivity(detailsActivity);
+        }
     }
 
     @Override

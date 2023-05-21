@@ -5,10 +5,19 @@
     <string name="app_name_create">Criar Pessoa</string>
     <string name="label_name">Nome:</string>
     <string name="label_date_birth">Data de nascimento:</string>
-    <string name="label_date_street">Logradouro:</string>
-    <string name="label_date_number">Numero:</string>
-    <string name="label_date_city">Cidade:</string>
-    <string name="label_date_zipCode">Cep:</string>
-    <string name="label_date_register">Cadastrar</string>
+    <string name="label_street">Logradouro:</string>
+    <string name="label_number">Numero:</string>
+    <string name="label_city">Cidade:</string>
+    <string name="label_zipCode">Cep:</string>
+    <string name="bt_register">Cadastrar</string>
+
+    <!-- Details screen -->
+    <string name="app_name_details">Detalhes</string>
+    <string name="bt_edit">Editar Pessoa</string>
+    <string name="bt_elete">Deletar Endereço</string>
+
+    <!-- Edit screen -->
+    <string name="app_name_edit">Atualizar</string>
+    <string name="bt_update">Atualizar</string>
 
 </resources>
