@@ -23,3 +23,15 @@ Usando Android, crie uma APP simples para gerenciar Pessoas. Esta APP deve permi
 - Criar endereço para pessoa
 - Remover endereço da pessoa
 - Poder informar qual endereço é o principal da pessoa
+- Salvar dados pessoa internamente cache.
+- Armazenar photo internamente no dispositivo.
+
+Links
+- Swagger da API consumida: https://people-spring-api.herokuapp.com/swagger-ui/index.html
+- Github da API Consumida: https://github.com/jericgs/people-api
+
+Vídeo da aplicação
+
+<p align="center">
+<a href="https://youtu.be/rthAxgS7TkE"><img src="http://img.youtube.com/vi/rthAxgS7TkE.jpg" height="338" width="504" alt="PEOPLE - APP" /></a>
+</p>
