@@ -1,23 +1,21 @@
 package com.example.aplicationpeople.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.example.aplicationpeople.R;
-import com.example.aplicationpeople.services.PeopleService;
-import com.example.aplicationpeople.model.PersonOutDTO;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.navigation.ui.AppBarConfiguration;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aplicationpeople.R;
 import com.example.aplicationpeople.databinding.ActivityMainBinding;
+import com.example.aplicationpeople.model.PersonOutDTO;
+import com.example.aplicationpeople.services.PeopleService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +30,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final String BASE_URL = "https://people-spring-api.herokuapp.com";
+    private static final String PREF_NAMES_KEY = "names";
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-
     private PeopleService peopleService;
-
     private ListView listView;
 
     private List<String> namesPeople;
-    private List<PersonOutDTO> peopleList; // Adicionado
+    private List<PersonOutDTO> peopleList;
+
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -56,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView.setOnItemClickListener(this);
 
         binding.fab.setOnClickListener(this);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -85,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (peopleList != null) {
                         namesPeople = peopleList.stream().map(PersonOutDTO::getName).collect(Collectors.toList());
                         listView.setAdapter(new ArrayAdapter<>(MainActivity.this, R.layout.list_fragment_view, namesPeople));
+
+                        // Salvar os nomes no SharedPreferences
+                        saveNamesToSharedPreferences(namesPeople);
                     }
                 } else {
                     Log.e("API Error", "Erro na resposta da API: " + response.code());
@@ -99,9 +101,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void saveNamesToSharedPreferences(List<String> names) {
+        StringBuilder namesBuilder = new StringBuilder();
+        for (String name : names) {
+            namesBuilder.append(name).append(",");
+        }
+        preferences.edit().putString(PREF_NAMES_KEY, namesBuilder.toString()).apply();
+    }
+
+    private List<String> getNamesFromSharedPreferences() {
+        String namesString = preferences.getString(PREF_NAMES_KEY, "");
+        String[] namesArray = namesString.split(",");
+        List<String> names = new ArrayList<>();
+        for (String name : namesArray) {
+            if (!name.isEmpty()) {
+                names.add(name);
+            }
+        }
+        return names;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         String personName = namesPeople.get(position);
 
         PersonOutDTO person = peopleList.stream()
