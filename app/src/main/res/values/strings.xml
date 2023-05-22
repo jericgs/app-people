@@ -19,5 +19,6 @@
     <!-- Edit screen -->
     <string name="app_name_edit">Atualizar</string>
     <string name="bt_update">Atualizar</string>
+    <string name="bt_photo">Adicionar Foto</string>
 
 </resources>

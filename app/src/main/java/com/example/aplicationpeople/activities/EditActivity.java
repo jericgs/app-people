@@ -1,7 +1,10 @@
 package com.example.aplicationpeople.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +18,11 @@ import com.example.aplicationpeople.model.PersonInputDTO;
 import com.example.aplicationpeople.model.PersonOutDTO;
 import com.example.aplicationpeople.services.PeopleService;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextName, editTextDateBirth;
-    private Button buttonUpdate;
+    private Button buttonPhoto, buttonUpdate;
 
     private static final String BASE_URL = "https://people-spring-api.herokuapp.com";
     private Retrofit retrofit;
@@ -33,6 +41,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private String name;
     private String dateBirth;
     private Long personId;
+
+    private static final int REQUEST_CODE_PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         editTextDateBirth = findViewById(R.id.editTextDateBirth);
         buttonUpdate = findViewById(R.id.buttonUpdate);
         buttonUpdate.setOnClickListener(this);
+        buttonPhoto = findViewById(R.id.buttonPhoto);
+        buttonPhoto.setOnClickListener(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -71,6 +83,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.buttonUpdate) {
             updatePerson();
+        }
+
+        if (v.getId() == R.id.buttonPhoto){
+            openGallery();
         }
     }
 
@@ -106,5 +122,63 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(EditActivity.this, "Erro na chamada de API.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+
+            // Obter o caminho absoluto da imagem selecionada
+            String imagePath = getImagePath(selectedImageUri);
+
+            // Salvar a imagem na memória local
+            saveImageToInternalStorage(imagePath);
+        }
+    }
+
+    private String getImagePath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            String imagePath = cursor.getString(columnIndex);
+            cursor.close();
+            return imagePath;
+        }
+
+        return null;
+    }
+
+    private void saveImageToInternalStorage(String imagePath) {
+        // Gere um nome de arquivo único para a imagem
+        String fileName = "photo_" + System.currentTimeMillis() + ".jpg";
+
+        // Obtenha o diretório de armazenamento interno do aplicativo
+        File storageDir = getFilesDir();
+
+        try {
+            // Crie um novo arquivo no diretório de armazenamento interno
+            File destFile = new File(storageDir, fileName);
+
+            // Copie a imagem selecionada para o novo arquivo
+            FileUtils.copyFile(new File(imagePath), destFile);
+
+            // Exibir mensagem de sucesso
+            Toast.makeText(this, "Imagem armazenada com sucesso.", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            // Exibir mensagem de erro
+            Toast.makeText(this, "Falha ao salvar a imagem.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
