@@ -33,5 +33,5 @@ Links
 Vídeo da aplicação
 
 <p align="center">
-<a href="https://youtu.be/rthAxgS7TkE"><img src="http://img.youtube.com/vi/rthAxgS7TkE.jpg" height="338" width="504" alt="PEOPLE - APP" /></a>
+<a href="https://www.youtube.com/watch?v=rthAxgS7TkE"><img src="http://img.youtube.com/vi/rthAxgS7TkE/0.jpg" height="338" width="504" alt="PEOPLE - APP" /></a>
 </p>
